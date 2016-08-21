@@ -18,16 +18,22 @@ var http = new HttpClient();
 return {
   getHeadlines: function() {
     http.get('http://news-summary-api.herokuapp.com/guardian?apiRequestUrl=http://content.guardianapis.com/uk-news', function(response) {
-      console.log(JSON.parse(response));
-      console.log(JSON.parse(response).response);
-      // console.log(JSON.parse(response).response.results);
       results = JSON.parse(response).response.results;
-      console.log(results);
       view.renderAll(JSON.parse(response));
     });
+  },
 
-  }
+    getArticle: function(id, callback) {
+      http.get('http://news-summary-api.herokuapp.com/guardian?apiRequestUrl=http://content.guardianapis.com/' + id + '?show-fields=body', function(response) {
+        body = JSON.parse(response).response.content.fields.body;
+        callback(JSON.parse(response));
+      });
+    },
 
-};
-
+    summariseArticle: function(id, callback) {
+      http.get('http://news-summary-api.herokuapp.com/aylien?apiRequestUrl=https://api.aylien.com/api/v1/summarize?url=https://www.theguardian.com/' + id, function(response) {
+        callback(JSON.parse(response));
+      });
+    },
+  };
 })();
