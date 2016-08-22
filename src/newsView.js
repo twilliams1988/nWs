@@ -7,7 +7,7 @@ var view = (function () {
       headlines.forEach(function(headline) {
         headlineLinks += "<a id='" + headline.id +"' href='#" + headline.id + "'><p>"+ headline.webTitle.substring(0, 40)+"...</p></a>";
       });
-      document.getElementById('headlines').innerHTML = headlineLinks;
+      document.getElementById('headlines').innerHTML += headlineLinks;
     },
     renderSummarisedArticle: function(response) {
       sentencesArray = response.sentences;
@@ -19,6 +19,9 @@ var view = (function () {
     },
     renderArticle: function(response) {
       document.getElementById('expandNews').innerHTML = response.response.content.fields.body;
+    },
+    renderTone: function(response) {
+      document.getElementById('tone').innerHTML = response.document_tone.tone_categories;
     }
   };
 
